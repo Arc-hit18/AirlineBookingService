@@ -1,0 +1,6 @@
+{20:56:49.768 [Test worker] INFO org.example.service.impl.SearchServiceImpl -- Search cache refreshed: days=2, totalRuns=2
+{20:56:49.794 [Test worker] INFO org.example.service.impl.SearchServiceImpl -- Search cache refreshed: days=0, totalRuns=0
+{20:56:49.801 [Test worker] INFO org.example.service.impl.SearchServiceImpl -- Search cache refreshed: days=1, totalRuns=1
+{20:56:49.806 [Test worker] INFO org.example.service.impl.SearchServiceImpl -- Search cache refreshed: days=1, totalRuns=1
+{20:56:49.812 [Test worker] INFO org.example.service.impl.SearchServiceImpl -- Search cache refreshed: days=1, totalRuns=2
+{20:56:49.817 [Test worker] INFO org.example.service.impl.SearchServiceImpl -- Search cache refreshed: days=0, totalRuns=0

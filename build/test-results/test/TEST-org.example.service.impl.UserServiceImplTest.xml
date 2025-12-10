@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.service.impl.UserServiceImplTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-12-10T15:26:49" hostname="LAPTOP-QCOF072R" time="0.053">
+  <properties/>
+  <testcase name="testGetUserById_notFound()" classname="org.example.service.impl.UserServiceImplTest" time="0.044"/>
+  <testcase name="testCreateUser_success()" classname="org.example.service.impl.UserServiceImplTest" time="0.003"/>
+  <testcase name="testGetUserById_found()" classname="org.example.service.impl.UserServiceImplTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
