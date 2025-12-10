@@ -24,42 +24,6 @@
       }
     },
     {
-      "name": "Get Booking By Id",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "http://localhost:8080/booking/1",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["booking", "1"]
-        }
-      }
-    },
-    {
-      "name": "Get Bookings For User",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "http://localhost:8080/booking/user/1",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["booking", "user", "1"]
-        }
-      }
-    },
-    {
-      "name": "Get Flight Details By Id",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "http://localhost:8080/flights/1",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["flights", "1"]
-        }
-      }
-    },
-    {
       "name": "Search Direct (k=0)",
       "request": {
         "method": "GET",
@@ -84,13 +48,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/search?src=DEL&dest=BLR&date=2025-12-15&stops=1",
+          "raw": "http://localhost:8080/search?src=DEL&dest=BOM&date=2025-12-15&stops=1",
           "host": ["localhost"],
           "port": "8080",
           "path": ["search"],
           "query": [
             { "key": "src", "value": "DEL" },
-            { "key": "dest", "value": "BLR" },
+            { "key": "dest", "value": "BOM" },
             { "key": "date", "value": "2025-12-15" },
             { "key": "stops", "value": "1" }
           ]
@@ -103,13 +67,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/search?src=DEL&dest=GOI&date=2025-12-15&stops=2",
+          "raw": "http://localhost:8080/search?src=DEL&dest=BOM&date=2025-12-15&stops=2",
           "host": ["localhost"],
           "port": "8080",
           "path": ["search"],
           "query": [
             { "key": "src", "value": "DEL" },
-            { "key": "dest", "value": "GOI" },
+            { "key": "dest", "value": "BOM" },
             { "key": "date", "value": "2025-12-15" },
             { "key": "stops", "value": "2" }
           ]
@@ -122,13 +86,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/search?src=BOM&dest=DEL&date=2025-12-20&stops=1",
+          "raw": "http://localhost:8080/search?src=DEL&dest=BOM&date=2025-12-20&stops=1",
           "host": ["localhost"],
           "port": "8080",
           "path": ["search"],
           "query": [
-            { "key": "src", "value": "BOM" },
-            { "key": "dest", "value": "DEL" },
+            { "key": "src", "value": "DEL" },
+            { "key": "dest", "value": "BOM" },
             { "key": "date", "value": "2025-12-20" },
             { "key": "stops", "value": "1" }
           ]

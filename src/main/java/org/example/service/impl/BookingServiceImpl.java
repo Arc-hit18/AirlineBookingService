@@ -32,7 +32,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional
     public Booking bookSeatsWithRetry(User user, int flightRunId, int seatsRequired, int maxTries) {
         int tries = 0;
         while (true) {
@@ -41,10 +40,9 @@ public class BookingServiceImpl implements BookingService {
                 FlightRun run = flightRunDao.findById(flightRunId);
                 if (run == null) throw new IllegalArgumentException("No such flight run");
                 if (run.getSeatAvailable() < seatsRequired) throw new IllegalArgumentException("Not enough seats available");
-
-                run.setSeatAvailable(run.getSeatAvailable() - seatsRequired);
+//
                 try {
-                    flightRunDao.update(run); // will throw if concurrent modification
+                    doBookOnce(flightRunId, user, seatsRequired); // will throw if concurrent modification
                 } catch (OptimisticLockException ole) {
                     if (tries >= maxTries) throw new RuntimeException("Booking failed due to concurrent update. Please retry.");
                     continue; // retry
@@ -65,6 +63,34 @@ public class BookingServiceImpl implements BookingService {
             }
         }
     }
+
+    @Transactional
+    public Booking doBookOnce(int flightRunId, User user, int seatsRequired) {
+        FlightRun run = flightRunDao.findById(flightRunId);
+
+        if (run.getSeatAvailable() < seatsRequired) {
+            throw new IllegalArgumentException("Not enough seats available");
+        }
+
+        run.setSeatAvailable(run.getSeatAvailable() - seatsRequired);
+
+        //To simulate parallel booking, we can have counter, for first counter = 0, have Thread.sleep() and for second counter = 1 no sleep.
+        //We will find second booking will succeed while first booking fails if 2nd booking make seats < seats required by first booking
+
+        Booking booking = Booking.builder()
+                .flightRun(run)
+                .user(user)
+                .seatsReserved(seatsRequired)
+                .amountPaid(run.getCost() * seatsRequired)
+                .bookingDate(new Date())
+                .status(BookingStatus.RESERVED)
+                .createdAt(new Date())
+                .build();
+
+        bookingDao.save(booking);
+        return booking;
+    }
+
 
     @Override
     public Booking getBookingById(int id) {

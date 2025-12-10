@@ -43,6 +43,34 @@
       }
     },
     {
+      "name": "Bulk Ingest Flights",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"flights\": [\n    {\n      \"src\": \"DEL\",\n      \"dest\": \"BOM\",\n      \"name\": \"UniqueFlightName001\",\n      \"arrivalTime\": \"2025-12-18T09:00:00\",\n      \"departureTime\": \"2025-12-18T06:00:00\",\n      \"months\": 0,\n      \"cost\": 3000,\n      \"seats\": 30\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/flights/bulk",
+          "host": ["localhost"], "port": "8080", "path": ["flights", "bulk"]
+        }
+      }
+    },
+    {
+      "name": "Get Flight Details by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/flights/1",
+          "host": ["localhost"], "port": "8080", "path": ["flights", "1"]
+        }
+      }
+    },
+    {
       "name": "Find Flights with k Stops",
       "request": {
         "method": "GET",
@@ -77,6 +105,28 @@
           "host": ["localhost"],
           "port": "8080",
           "path": ["booking"]
+        }
+      }
+    },
+    {
+      "name": "Get Booking By Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/booking/1",
+          "host": ["localhost"], "port": "8080", "path": ["booking", "1"]
+        }
+      }
+    },
+    {
+      "name": "Get Bookings For User",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/booking/user/1",
+          "host": ["localhost"], "port": "8080", "path": ["booking", "user", "1"]
         }
       }
     }
