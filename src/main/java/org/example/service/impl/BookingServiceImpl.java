@@ -30,8 +30,6 @@ public class BookingServiceImpl implements BookingService {
     private int maxRetry;
     private static final Logger log = LoggerFactory.getLogger(BookingServiceImpl.class);
 
-    int cnt = -1;
-
     @Autowired
     public BookingServiceImpl(BookingDao bookingDao, FlightRunDao flightRunDao, PlatformTransactionManager transactionManager) {
         this.bookingDao = bookingDao;
@@ -47,7 +45,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking bookSeatsWithRetry(User user, int flightRunId, int seatsRequired, int maxTries) {
         int tries = 0;
-        cnt++;
         while (true) {
             tries++;
             try {
@@ -74,15 +71,6 @@ public class BookingServiceImpl implements BookingService {
 
         //To simulate parallel booking, we can have counter, for first counter = 0, have Thread.sleep() and for second counter = 1 no sleep.
         //We will find second booking will succeed while first booking fails if 2nd booking make seats < seats required by first booking
-
-        if(cnt % 2 == 0) {
-            try{
-                log.info("retrying......");
-                Thread.sleep(30000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
 
         Booking booking = Booking.builder()
                 .flightRun(run)
