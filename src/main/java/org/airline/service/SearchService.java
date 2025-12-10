@@ -1,25 +1,20 @@
 package org.airline.service;
 
-import org.airline.model.FlightRun;
+import org.airline.dto.search.SearchFlightResponse;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Service for searching possible flight options (direct and indirect connections).
  */
 public interface SearchService {
-
     /**
-     * Find up to {@code k} flight paths between two airports on a given date.
-     * Each path is represented as an ordered list of {@link FlightRun} segments
-     * (direct flights will contain a single element).
-     *
+     * Finds and builds sorted SearchFlightResponse DTOs for flight paths between two airports on a given date.
      * @param k    maximum number of paths to return
      * @param src  origin airport code
      * @param dest destination airport code
      * @param date date of travel
-     * @return set of distinct paths, each a list of flight runs
+     * @return sorted list of SearchFlightResponse (by total cost)
      */
-    Set<List<FlightRun>> findFlights(int k, String src, String dest, LocalDate date);
+    List<SearchFlightResponse> searchFlights(int k, String src, String dest, LocalDate date);
 }

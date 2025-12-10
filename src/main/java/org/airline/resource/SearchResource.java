@@ -31,20 +31,7 @@ public class SearchResource {
         @Parameter(description = "Travel date in YYYY-MM-DD format") @RequestParam String date,
         @Parameter(description = "Maximum number of stopovers allowed (k >= 0)") @RequestParam int stops
     ) {
-        Set<List<FlightRun>> results = searchService.findFlights(stops, src, dest, LocalDate.parse(date));
-        List<SearchFlightResponse> responses = new ArrayList<>();
-        for (List<FlightRun> runs : results) {
-            List<Integer> runIds = new ArrayList<>();
-            List<String> flightNames = new ArrayList<>();
-            int totalCost = 0;
-            for (FlightRun fr : runs) {
-                runIds.add(fr.getId());
-                flightNames.add(fr.getFlight().getName());
-                totalCost += fr.getCost();
-            }
-            responses.add(new SearchFlightResponse(runIds, flightNames, totalCost));
-        }
-        responses.sort(Comparator.comparingInt(SearchFlightResponse::getTotalCost));
+        List<SearchFlightResponse> responses = searchService.searchFlights(stops, src, dest, LocalDate.parse(date));
         if (responses.isEmpty()) {
             return ResponseEntity.status(404)
                 .body(new ApiError(404, "NO_FLIGHTS_FOUND", "No valid flights found for the criteria."));

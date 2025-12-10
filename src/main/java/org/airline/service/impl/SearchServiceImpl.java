@@ -1,5 +1,6 @@
 package org.airline.service.impl;
 
+import org.airline.dto.search.SearchFlightResponse;
 import org.airline.model.FlightRun;
 import org.airline.repository.FlightRunDao;
 import org.airline.service.SearchService;
@@ -17,6 +18,32 @@ import java.util.stream.Collectors;
 
 @Service
 public class SearchServiceImpl implements SearchService {
+    @Override
+    public List<SearchFlightResponse> searchFlights(int k, String src, String dest, LocalDate date) {
+        Map<String, List<FlightRun>> graph = cacheRef.get().getOrDefault(date, Collections.emptyMap());
+        if (graph.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Set<List<FlightRun>> result = new HashSet<>();
+        List<FlightRun> path = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        dfs(k, src, dest, graph, path, result, visited);
+        List<SearchFlightResponse> responses = new ArrayList<>();
+        for (List<FlightRun> runs : result) {
+            List<Integer> runIds = new ArrayList<>();
+            List<String> flightNames = new ArrayList<>();
+            int totalCost = 0;
+            for (FlightRun fr : runs) {
+                runIds.add(fr.getId());
+                flightNames.add(fr.getFlight().getName());
+                totalCost += fr.getCost();
+            }
+            responses.add(new SearchFlightResponse(runIds, flightNames, totalCost));
+        }
+        responses.sort(Comparator.comparingInt(org.airline.dto.search.SearchFlightResponse::getTotalCost));
+        return responses;
+    }
+
     private static final Logger log = LoggerFactory.getLogger(SearchServiceImpl.class);
 
     private final FlightRunDao flightRunDao;
@@ -56,18 +83,6 @@ public class SearchServiceImpl implements SearchService {
         log.info("Search cache refreshed: days={}, totalRuns={}", immutableNext.size(), all.size());
     }
 
-    @Override
-    public Set<List<FlightRun>> findFlights(int k, String src, String dest, LocalDate date) {
-        Map<String, List<FlightRun>> graph = cacheRef.get().getOrDefault(date, Collections.emptyMap());
-        if (graph.isEmpty()) {
-            return Collections.emptySet();
-        }
-        Set<List<FlightRun>> result = new HashSet<>();
-        List<FlightRun> path = new ArrayList<>();
-        Set<String> visited = new HashSet<>();
-        dfs(k, src, dest, graph, path, result, visited);
-        return result;
-    }
     private void dfs(int k, String curr, String dest, Map<String, List<FlightRun>> graph, List<FlightRun> path, Set<List<FlightRun>> result, Set<String> visited) {
         if (curr.equals(dest)) {
             result.add(new ArrayList<>(path));
